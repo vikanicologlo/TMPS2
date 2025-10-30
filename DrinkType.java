@@ -1,0 +1,8 @@
+public enum DrinkType {
+    AMERICANO,
+    CAPPUCCINO,
+    SYRUP_CAPPUCCINO,
+    PUMPKIN_SPICE_LATTE,
+    RAF,
+    CUSTOM
+}
