@@ -58,14 +58,24 @@ public class TarotReader {
     }
 
     public List<TarotCard> drawCards(int count) {
+        if (count <= 0 || count > deck.size()) {
+            throw new IllegalArgumentException("Count must be between 1 and " + deck.size());
+        }
+        
+        // Create a shuffled copy of the deck to ensure unique cards
+        List<TarotCardDefinition> shuffledDeck = new ArrayList<>(deck);
+        Collections.shuffle(shuffledDeck, random);
+        
         List<TarotCard> cards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            cards.add(drawCard());
+            TarotCardDefinition def = shuffledDeck.get(i);
+            boolean reversed = random.nextBoolean();
+            cards.add(new TarotCard(def.name, def.uprightMeaning, def.reversedMeaning, reversed));
         }
         return cards;
     }
 
-    public void performReading(String question, int numberOfCards, ConsoleUI ui) {
+    public void performReading(String question, int numberOfCards) {
         System.out.println("\n🔮 Tarot Reading 🔮");
         System.out.println("Your question: " + question);
         System.out.println("\nShuffling the cards...");

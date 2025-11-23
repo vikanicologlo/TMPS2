@@ -19,7 +19,7 @@ public class Main {
                 TarotReader tarotReader = new TarotReader();
                 String question = ui.askTarotQuestion();
                 int numberOfCards = ui.askNumberOfCards();
-                tarotReader.performReading(question, numberOfCards, ui);
+                tarotReader.performReading(question, numberOfCards);
             } else {
                 // Coffee ordering
                 BaristaCreator barista;
