@@ -28,6 +28,19 @@ public class ConsoleUI {
         }
     }
 
+    public int askMainMenu() {
+        while (true) {
+            System.out.println("\nWhat would you like?");
+            System.out.println("1) Classic coffee menu");
+            System.out.println("2) Seasonal coffee menu");
+            System.out.println("3) Build a custom drink");
+            System.out.println("4) Get a tarot reading 🔮");
+            int n = input.readInt("Your choice: ");
+            if (n >= 1 && n <= 4) return n;
+            System.out.println("❌ Invalid choice. Please try again.");
+        }
+    }
+
     public Intensity askIntensity() {
         while (true) {
             System.out.println("Choose intensity: 1) LIGHT  2) MEDIUM  3) STRONG");
@@ -110,6 +123,32 @@ public class ConsoleUI {
 
             }
             System.out.println("❌ Invalid choice. Please try again.");
+        }
+    }
+
+    // ===== Tarot Reading Methods =====
+    public String askTarotQuestion() {
+        System.out.println("\n🔮 Welcome to the Tarot Reading 🔮");
+        String question = input.readString("Please enter your question: ");
+        if (question == null || question.trim().isEmpty()) {
+            return "What does the future hold for me?";
+        }
+        return question.trim();
+    }
+
+    public int askNumberOfCards() {
+        while (true) {
+            System.out.println("\nHow many cards would you like to draw?");
+            System.out.println("1) One card (quick insight)");
+            System.out.println("2) Three cards (past, present, future)");
+            System.out.println("3) Five cards (detailed reading)");
+            int n = input.readInt("Your choice: ");
+            switch (n) {
+                case 1: return 1;
+                case 2: return 3;
+                case 3: return 5;
+            }
+            System.out.println("❌ Invalid choice. Please try again.\n");
         }
     }
 }

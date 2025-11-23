@@ -6,38 +6,52 @@ public class Main {
         ConsoleUI ui = new ConsoleUI(new ConsoleInput());
 
         System.out.println("Welcome to our coffee shop! ☕️");
+        System.out.println("We also offer tarot readings! 🔮");
 
         List<Coffee> orders = new ArrayList<>();
         boolean more = true;
 
         while (more) {
-            int menuChoice = ui.askMenuType();
-            BaristaCreator barista;
-            DrinkType type;
+            int menuChoice = ui.askMainMenu();
 
-            switch (menuChoice) {
-                case 1: // классическое меню
-                    barista = new ClassicBarista();
-                    type = ui.askClassicDrinkType();
-                    break;
-                case 2: // сезонное меню
-                    barista = new SeasonalBarista();
-                    type = ui.askSeasonalDrinkType();
-                    break;
-                case 3: // кастом
-                    barista = new CustomBarista();
-                    type = DrinkType.CUSTOM;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wrong choice");
+            if (menuChoice == 4) {
+                // Tarot reading
+                TarotReader tarotReader = new TarotReader();
+                String question = ui.askTarotQuestion();
+                int numberOfCards = ui.askNumberOfCards();
+                tarotReader.performReading(question, numberOfCards, ui);
+            } else {
+                // Coffee ordering
+                BaristaCreator barista;
+                DrinkType type;
+
+                switch (menuChoice) {
+                    case 1: // классическое меню
+                        barista = new ClassicBarista();
+                        type = ui.askClassicDrinkType();
+                        break;
+                    case 2: // сезонное меню
+                        barista = new SeasonalBarista();
+                        type = ui.askSeasonalDrinkType();
+                        break;
+                    case 3: // кастом
+                        barista = new CustomBarista();
+                        type = DrinkType.CUSTOM;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Wrong choice");
+                }
+
+                orders.add(barista.takeOrder(type, ui));
             }
 
-            orders.add(barista.takeOrder(type, ui));
             more = ui.askYesNo("Would you like something else?");
         }
 
-        System.out.println("\nPrepare your drinks:");
-        for (Coffee c : orders) c.brew();
+        if (!orders.isEmpty()) {
+            System.out.println("\nPrepare your drinks:");
+            for (Coffee c : orders) c.brew();
+        }
 
         System.out.println("\nThanks for visiting us! 😊");
     }
